@@ -13,23 +13,35 @@ export default function VoiceComponent() {
 
   return (
     <div className="rounded-md border p-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <AudioLines className="h-6 w-6" />
-          <h1>Voz Genérica</h1>
-          <Separator orientation="vertical" className="h-6" />
-          <Badge>Americano</Badge>
-          <Badge>Grave</Badge>
-          <Badge>Homem</Badge>
-          {/* maximo de 3 categorias (badges) */}
+      <div className="flex flex-col items-center justify-between gap-4 lg:flex-row lg:gap-2">
+        <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-2">
+          <div className="flex items-center gap-2">
+            <AudioLines className="h-6 w-6" />
+            <h1 className="line-clamp-1">Voz Genérica</h1>
+          </div>
+          <Separator orientation="vertical" className="hidden h-6 lg:block" />
+          <div className="flex items-center gap-2">
+            <Badge>Americano</Badge>
+            <Badge>Grave</Badge>
+            <Badge>Homem</Badge>
+            {/* maximo de 3 categorias (badges) */}
+          </div>
         </div>
         <div className="flex items-center gap-4">
           {isPreviewPlaying ? (
-            <Button onClick={() => setIsPreviewPlaying(false)} className="w-24">
-              <Pause className="h-6 w-6" />
+            <Button
+              onClick={() => setIsPreviewPlaying(false)}
+              size={'sm'}
+              className="w-24 text-sm lg:text-base"
+            >
+              <Pause className="h-4 w-4 lg:h-6 lg:w-6" />
             </Button>
           ) : (
-            <Button onClick={() => setIsPreviewPlaying(true)} className="w-24">
+            <Button
+              onClick={() => setIsPreviewPlaying(true)}
+              size={'sm'}
+              className="w-24 text-xs lg:text-base"
+            >
               Preview
             </Button>
           )}
@@ -37,12 +49,13 @@ export default function VoiceComponent() {
             <Loader />
           ) : (
             <Button
+              size={'sm'}
               variant={'secondary'}
-              className="w-24 gap-1"
+              className="w-24 gap-1 text-xs lg:text-base"
               disabled={isGenerating}
               onClick={() => setIsGenerating(true)}
             >
-              <Play className="h-6 w-6" />
+              <Play className="h-4 w-4 lg:h-6 lg:w-6" />
               Gerar
             </Button>
           )}

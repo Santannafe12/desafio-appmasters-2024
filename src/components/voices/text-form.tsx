@@ -41,12 +41,12 @@ export default function TextForm() {
           name="text"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-xl">
+              <FormLabel className="text-base lg:text-xl">
                 Texto que será convertido em áudio:
               </FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="She got eyes of the bluests skies..."
+                  placeholder="She got eyes of the bluest skies..."
                   autoComplete="off"
                   rows={2}
                   className="resize-none"

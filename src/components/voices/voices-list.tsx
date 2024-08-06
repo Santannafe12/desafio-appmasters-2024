@@ -6,7 +6,9 @@ import VoiceComponent from './voice-component'
 export default function VoicesList() {
   return (
     <div className="space-y-4">
-      <Label className="text-xl">Lista de vozes disponíveis:</Label>
+      <Label className="text-base lg:text-xl">
+        Lista de vozes disponíveis:
+      </Label>
       <VoiceComponent />
       <VoiceComponent />
       <VoiceComponent />
