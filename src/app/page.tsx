@@ -2,7 +2,7 @@ import VoiceLayout from '@/components/voices/voice-layout'
 
 async function getVoices() {
   const response = await fetch(
-    'https://desafio-appmasters-2024.vercel.app/api/get-voices',
+    process.env.NEXT_PUBLIC_BASE_URL + 'api/get-voices',
     {
       next: {
         revalidate: 60,
@@ -16,6 +16,10 @@ async function getVoices() {
 
 export default async function Home() {
   const voices = await getVoices()
+
+  if (!voices) {
+    return <div>Carregando...</div>
+  }
 
   return <VoiceLayout voices={voices} />
 }

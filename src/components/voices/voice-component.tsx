@@ -48,13 +48,10 @@ export default function VoiceComponent({
       const formData = new FormData()
       formData.append('file', audioBlob, 'audio.mp3')
 
-      const response = await fetch(
-        'https://desafio-appmasters-2024.vercel.app/api/put-audio',
-        {
-          method: 'PUT',
-          body: formData,
-        },
-      )
+      const response = await fetch('/api/put-audio', {
+        method: 'PUT',
+        body: formData,
+      })
 
       const { url } = await response.json()
 
