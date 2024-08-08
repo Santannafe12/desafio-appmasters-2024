@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img alt="LogoAppMasters" title="#LogoAppMasters" src="./assets/Logo-App-Masters-Principal.png" />
+    <img alt="LogoAppMasters" title="#LogoAppMasters" src="./public/assets/Logo-App-Masters-Principal.png" />
 </h1>
 
 <h4 align="center"> 
@@ -38,13 +38,13 @@ Projeto desenvolvido para uma vaga de **Estágio** oferecida pela [App Masters](
 ### Mobile
 
 <p align="center">
-  <img alt="AppMastersMobile" title="#AppMastersMobile" src="./assets/layout-mobile.png" width="200px">
+  <img alt="AppMastersMobile" title="#AppMastersMobile" src="./public/assets/layout-mobile.png" width="300px">
 </p>
 
 ### Web
 
 <p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
-  <img alt="AppMastersWeb" title="#AppMastersWeb" src="./assets/layout-web.png" width="400px">
+  <img alt="AppMastersWeb" title="#AppMastersWeb" src="./public/assets/layout-web.png" width="800px">
 </p>
 
 ---
