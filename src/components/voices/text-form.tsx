@@ -27,7 +27,6 @@ export default function TextForm({
           gerada.
         </div>
       </div>
-      <button type="submit">Gerar</button>
     </form>
   )
 }
