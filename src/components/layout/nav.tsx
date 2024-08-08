@@ -1,5 +1,5 @@
 import { Github } from 'lucide-react'
-import { Button } from '../ui/button'
+import { Button } from '../_ui/button'
 import Link from 'next/link'
 import Image from 'next/image'
 

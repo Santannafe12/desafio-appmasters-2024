@@ -2,11 +2,11 @@
 
 import { ElevenLabs } from 'elevenlabs'
 import Header from '../layout/header'
-import TextForm from './text-form'
-import VoicesList from './voices-list'
+import Voices from '../voices/voices'
 import { useState } from 'react'
+import Form from '../form/form'
 
-export default function VoiceLayout({
+export default function HomeContainer({
   voices,
 }: {
   voices: ElevenLabs.Voice[]
@@ -16,8 +16,8 @@ export default function VoiceLayout({
   return (
     <div className="mx-auto my-6 w-11/12 space-y-8 sm:w-7/12">
       <Header />
-      <TextForm setText={setText} />
-      <VoicesList voices={voices} text={text} />
+      <Form setText={setText} />
+      <Voices voices={voices} text={text} />
     </div>
   )
 }

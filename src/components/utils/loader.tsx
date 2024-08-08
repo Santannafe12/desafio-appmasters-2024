@@ -1,4 +1,4 @@
-import { Button } from '../ui/button'
+import { Button } from '../_ui/button'
 
 export default function Loader() {
   return (
@@ -6,7 +6,7 @@ export default function Loader() {
       <div role="status">
         <svg
           aria-hidden="true"
-          className="h-6 w-6 animate-spin fill-white text-zinc-800"
+          className="h-5 w-5 animate-spin fill-white text-zinc-800"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

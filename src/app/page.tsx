@@ -1,21 +1,11 @@
-import VoiceLayout from '@/components/voices/voice-layout'
+import HomePage from '@/components/home/home-page'
+import Fallback from '@/components/utils/fallback'
+import { Suspense } from 'react'
 
-async function getVoices() {
-  const response = await fetch(
-    process.env.NEXT_PUBLIC_BASE_URL + 'api/get-voices',
-    {
-      next: {
-        revalidate: 60,
-      },
-    },
+export default function Home() {
+  return (
+    <Suspense fallback={<Fallback />}>
+      <HomePage />
+    </Suspense>
   )
-  const voices = await response.json()
-
-  return voices
-}
-
-export default async function Home() {
-  const voices = await getVoices()
-
-  return <VoiceLayout voices={voices} />
 }

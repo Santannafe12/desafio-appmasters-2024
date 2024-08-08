@@ -1,15 +1,17 @@
 'use client'
 
-import { AudioLines, Pause, Play } from 'lucide-react'
-import { Separator } from '../ui/separator'
-import { Badge } from '../ui/badge'
-import { Button } from '../ui/button'
-import { useState } from 'react'
+import { AudioLines, Ear, Headphones, Pause, Play } from 'lucide-react'
+import { Separator } from '../_ui/separator'
+import { Badge } from '../_ui/badge'
+import { Button } from '../_ui/button'
+import { useState, useRef } from 'react'
 import { ElevenLabs } from 'elevenlabs'
-import Loader from '../utils/loader'
 import { createAudioStreamFromText } from '@/lib/text-to-speech-file'
+import { toast } from '../_ui/use-toast'
+import { ToastAction } from '../_ui/toast'
+import Loader from '../utils/loader'
 
-export default function VoiceComponent({
+export default function VoiceCard({
   voice,
   text,
 }: {
@@ -18,26 +20,33 @@ export default function VoiceComponent({
 }) {
   const [isPreviewPlaying, setIsPreviewPlaying] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
-  const [audio, setAudio] = useState<HTMLAudioElement | null>(null)
+  const [isGeneratedPlaying, setIsGeneratedPlaying] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const handlePausePreview = () => {
-    if (audio) {
-      audio.pause()
+    if (audioRef.current) {
+      audioRef.current.pause()
       setIsPreviewPlaying(false)
     }
   }
 
   const handlePreview = () => {
+    if (isGenerating || isGeneratedPlaying) return
+
     const newAudio = new Audio(voice.preview_url)
     newAudio.volume = 0.2
     newAudio.play()
-    setAudio(newAudio)
+    audioRef.current = newAudio
     setIsPreviewPlaying(true)
 
     newAudio.addEventListener('ended', () => setIsPreviewPlaying(false))
   }
 
   const handleGenerate = async () => {
+    if (isPreviewPlaying) {
+      handlePausePreview()
+    }
+
     setIsGenerating(true)
 
     try {
@@ -58,15 +67,28 @@ export default function VoiceComponent({
       const newAudio = new Audio(url)
       newAudio.volume = 0.2
       newAudio.play()
+      setIsGeneratedPlaying(true)
+
+      newAudio.addEventListener('ended', () => setIsGeneratedPlaying(false))
     } catch (error) {
-      console.error('Erro gerando áudio:', error)
+      toast({
+        variant: 'destructive',
+        title: 'Algo deu errado!',
+        description:
+          'Houve um erro ao gerar o áudio. Por favor, tente novamente.',
+        action: (
+          <ToastAction altText="Tentar novamente" onClick={handleGenerate}>
+            Tentar novamente
+          </ToastAction>
+        ),
+      })
     } finally {
       setIsGenerating(false)
     }
   }
 
   return (
-    <div className="rounded-md border p-4">
+    <div className="rounded-md border p-4 transition-all hover:bg-muted/50">
       <div className="flex flex-col items-center justify-between gap-4 lg:flex-row lg:gap-2">
         <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-2">
           <div className="flex items-center gap-2">
@@ -75,7 +97,9 @@ export default function VoiceComponent({
           </div>
           <Separator orientation="vertical" className="hidden h-6 lg:block" />
           <div className="flex items-center gap-2">
-            <Badge>{voice.category}</Badge>
+            <Badge>
+              {voice.category === 'premade' ? 'pré-feito' : voice.category}
+            </Badge>
           </div>
         </div>
         <div className="flex items-center gap-4">
@@ -83,29 +107,42 @@ export default function VoiceComponent({
             <Button
               onClick={handlePausePreview}
               size={'sm'}
-              className="w-24 text-sm lg:text-base"
+              className="w-32 text-sm lg:text-base"
             >
               <Pause className="h-4 w-4 lg:h-6 lg:w-6" />
             </Button>
           ) : (
-            <Button
-              onClick={handlePreview}
-              size={'sm'}
-              className="w-24 text-xs lg:text-base"
-              disabled={isGenerating}
-            >
-              Preview
-            </Button>
+            !isGeneratedPlaying && (
+              <Button
+                onClick={handlePreview}
+                size={'sm'}
+                className="w-32 gap-1 text-xs lg:text-base"
+                disabled={isGenerating}
+              >
+                <Ear className="h-4 w-4 lg:h-6 lg:w-6" />
+                Escutar
+              </Button>
+            )
           )}
           {text.length > 0 &&
             (isGenerating ? (
               <Loader />
+            ) : isGeneratedPlaying ? (
+              <Button
+                className="gap-1 text-xs lg:text-base"
+                variant={'secondary'}
+              >
+                <Headphones className="h-4 w-4 lg:h-6 lg:w-6" />
+                Reproduzindo...
+              </Button>
             ) : (
               <Button
                 size={'sm'}
                 variant={'secondary'}
                 className="w-24 gap-1 text-xs lg:text-base"
-                disabled={isPreviewPlaying}
+                disabled={
+                  isPreviewPlaying || isGenerating || isGeneratedPlaying
+                }
                 onClick={handleGenerate}
               >
                 <Play className="h-4 w-4 lg:h-6 lg:w-6" />
@@ -116,7 +153,7 @@ export default function VoiceComponent({
       </div>
       <Separator orientation="horizontal" className="my-4" />
       <div className="flex items-start gap-2">
-        <Badge variant={'secondary'}>Tags:</Badge>
+        <Badge variant={'secondary'}>Labels:</Badge>
         {voice.labels ? (
           <ul className="flex flex-wrap items-center gap-2">
             {Object.entries(voice.labels).map(([key, value]) => (
@@ -126,7 +163,7 @@ export default function VoiceComponent({
             ))}
           </ul>
         ) : (
-          <p>Sem tags disponíveis.</p>
+          <p>Sem labels disponíveis.</p>
         )}
       </div>
     </div>

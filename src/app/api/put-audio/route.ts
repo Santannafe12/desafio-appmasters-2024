@@ -5,7 +5,7 @@ export async function PUT(request: Request) {
   const file = form.get('file') as File
 
   if (!file) {
-    return new Response('No file provided', { status: 400 })
+    return new Response('Não foi providenciado arquivo!', { status: 400 })
   }
 
   try {
@@ -15,7 +15,6 @@ export async function PUT(request: Request) {
       headers: { 'Content-Type': 'application/json' },
     })
   } catch (error) {
-    console.error('Error uploading file:', error)
-    return new Response('Error uploading file', { status: 500 })
+    return new Response('Erro ao upload.', { status: 500 })
   }
 }
