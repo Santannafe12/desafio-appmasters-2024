@@ -1,14 +1,21 @@
-import Header from '@/components/layout/header'
-import TextForm from '@/components/voices/text-form'
-import VoicesList from '@/components/voices/voices-list'
+import VoiceLayout from '@/components/voices/voice-layout'
 
-export default function Home() {
-  return (
-    <div className="mx-auto my-6 w-11/12 space-y-8 sm:w-7/12">
-      {/* Implementar Suspense */}
-      <Header />
-      <TextForm />
-      <VoicesList />
-    </div>
+async function getVoices() {
+  const response = await fetch(
+    'https://desafio-appmasters-2024.vercel.app/api/get-voices',
+    {
+      next: {
+        revalidate: 60,
+      },
+    },
   )
+  const voices = await response.json()
+
+  return voices
+}
+
+export default async function Home() {
+  const voices = await getVoices()
+
+  return <VoiceLayout voices={voices} />
 }
