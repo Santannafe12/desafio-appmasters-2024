@@ -3,7 +3,7 @@
 </h1>
 
 <h4 align="center"> 
-	🤖 Estágio App Masters - Text to Speech ♻️ Concluído 🚀 🚧
+	🤖 Estágio App Masters - Text to Speech 🔊 Concluído 🚀 🚧
 </h4>
 
 <p align="center">
