@@ -10,13 +10,24 @@ import { createAudioStreamFromText } from '@/lib/create-audio-stream-text'
 import { toast } from '../_ui/use-toast'
 import { ToastAction } from '../_ui/toast'
 import Loader from '../utils/loader'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '../_ui/card'
+import { SelectedLabels } from '@/hooks/reducer'
 
 export default function VoiceCard({
   voice,
   text,
+  selectedLabels,
 }: {
   voice: ElevenLabs.Voice
   text: string
+  selectedLabels: SelectedLabels
 }) {
   const [isPreviewPlaying, setIsPreviewPlaying] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
@@ -88,21 +99,17 @@ export default function VoiceCard({
   }
 
   return (
-    <div className="rounded-md border p-4 transition-all hover:bg-muted/50">
-      <div className="flex flex-col items-center justify-between gap-4 lg:flex-row lg:gap-2">
-        <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-2">
-          <div className="flex items-center gap-2">
+    <Card className="flex flex-col justify-between gap-4 rounded-md border p-4 transition-all hover:bg-muted/50 lg:gap-2">
+      <div className="flex flex-col items-center justify-between gap-4 lg:flex-row">
+        <CardHeader className="flex flex-col gap-4 p-0 lg:flex-row lg:gap-2">
+          <CardTitle className="flex items-center gap-2">
             <AudioLines className="h-6 w-6" />
-            <h1 className="line-clamp-1">{voice.name}</h1>
-          </div>
+            <span className="line-clamp-1">{voice.name}</span>
+          </CardTitle>
           <Separator orientation="vertical" className="hidden h-6 lg:block" />
-          <div className="flex items-center gap-2">
-            <Badge>
-              {voice.category === 'premade' ? 'pré-feito' : voice.category}
-            </Badge>
-          </div>
-        </div>
-        <div className="flex items-center gap-4">
+          <CardDescription>{voice.category}</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-wrap items-center justify-center gap-4 lg:justify-normal">
           {isPreviewPlaying ? (
             <Button
               onClick={handlePausePreview}
@@ -116,7 +123,7 @@ export default function VoiceCard({
               <Button
                 onClick={handlePreview}
                 size={'sm'}
-                className="w-32 gap-1 text-xs lg:text-base"
+                className="w-full gap-1 text-xs lg:w-32 lg:text-base"
                 disabled={isGenerating}
               >
                 <Ear className="h-4 w-4 lg:h-6 lg:w-6" />
@@ -139,7 +146,7 @@ export default function VoiceCard({
               <Button
                 size={'sm'}
                 variant={'secondary'}
-                className="w-24 gap-1 text-xs lg:text-base"
+                className="w-full gap-1 text-xs lg:w-24 lg:text-base"
                 disabled={
                   isPreviewPlaying || isGenerating || isGeneratedPlaying
                 }
@@ -149,23 +156,25 @@ export default function VoiceCard({
                 Gerar
               </Button>
             ))}
-        </div>
+        </CardContent>
       </div>
-      <Separator orientation="horizontal" className="my-4" />
-      <div className="flex items-start gap-2">
+      <Separator orientation="horizontal" className="mb-4" />
+      <CardFooter className="flex items-start gap-2 p-0">
         <Badge variant={'secondary'}>Labels:</Badge>
         {voice.labels ? (
           <ul className="flex flex-wrap items-center gap-2">
-            {Object.entries(voice.labels).map(([key, value]) => (
-              <Badge key={key} variant={'outline'}>
-                {key}: {value}
-              </Badge>
-            ))}
+            {Object.entries(voice.labels).map(([key, value]) =>
+              selectedLabels[key]?.includes(value) ? null : (
+                <li key={`${key}-${value}`}>
+                  <Badge variant={'outline'}>{value}</Badge>
+                </li>
+              ),
+            )}
           </ul>
         ) : (
           <p>Sem labels disponíveis.</p>
         )}
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   )
 }
