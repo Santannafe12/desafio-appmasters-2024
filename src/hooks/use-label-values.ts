@@ -9,7 +9,7 @@ export const useLabelValues = (voices: ElevenLabs.Voice[]) => {
     dispatch({ type: 'collect_labels', payload: voices })
   }, [voices])
 
-  console.log(labelValues)
+  console.log(labelValues) // Console log proposto no desafio
 
   return labelValues
 }

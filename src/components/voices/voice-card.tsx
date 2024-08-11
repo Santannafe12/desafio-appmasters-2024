@@ -100,16 +100,18 @@ export default function VoiceCard({
 
   return (
     <Card className="flex flex-col justify-between gap-4 rounded-md border p-4 transition-all hover:bg-muted/50 lg:gap-2">
-      <div className="flex flex-col items-center justify-between gap-4 lg:flex-row">
+      <div className="mb-2 flex flex-col items-center justify-between gap-4 lg:flex-row">
         <CardHeader className="flex flex-col gap-4 p-0 lg:flex-row lg:gap-2">
           <CardTitle className="flex items-center gap-2">
             <AudioLines className="h-6 w-6" />
             <span className="line-clamp-1">{voice.name}</span>
           </CardTitle>
           <Separator orientation="vertical" className="hidden h-6 lg:block" />
-          <CardDescription>{voice.category}</CardDescription>
+          <CardDescription className="flex justify-center">
+            {voice.category === 'premade' ? 'pré-feito' : voice.category}
+          </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-wrap items-center justify-center gap-4 lg:justify-normal">
+        <CardContent className="flex flex-wrap gap-4">
           {isPreviewPlaying ? (
             <Button
               onClick={handlePausePreview}
@@ -159,10 +161,10 @@ export default function VoiceCard({
         </CardContent>
       </div>
       <Separator orientation="horizontal" className="mb-4" />
-      <CardFooter className="flex items-start gap-2 p-0">
+      <CardFooter className="flex items-start gap-2 p-0 lg:items-center">
         <Badge variant={'secondary'}>Labels:</Badge>
         {voice.labels ? (
-          <ul className="flex flex-wrap items-center gap-2">
+          <ul className="flex flex-wrap gap-2">
             {Object.entries(voice.labels).map(([key, value]) =>
               selectedLabels[key]?.includes(value) ? null : (
                 <li key={`${key}-${value}`}>

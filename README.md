@@ -29,6 +29,7 @@ Projeto desenvolvido para uma vaga de **Estágio** oferecida pela [App Masters](
 - [x] Usuários podem gerar áudios personalizados enviando:
   - [x] um texto de no máximo 200 caracteres
 
+- [x] Usuários podem filtrar por categorias, selecionando apenas vozes que interessem.
 - [x] Usuários podem escutar previamente todas as vozes, para selecionar suas favoritas.
 
 ---
@@ -38,13 +39,13 @@ Projeto desenvolvido para uma vaga de **Estágio** oferecida pela [App Masters](
 ### Mobile
 
 <p align="center">
-  <img alt="AppMastersMobile" title="#AppMastersMobile" src="./public/assets/layout-mobile.png" width="300px">
+  <img alt="AppMastersMobile" title="#AppMastersMobile" src="./public/assets/mobile.png" width="300px">
 </p>
 
 ### Web
 
 <p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
-  <img alt="AppMastersWeb" title="#AppMastersWeb" src="./public/assets/layout-web.png" width="800px">
+  <img alt="AppMastersWeb" title="#AppMastersWeb" src="./public/assets/web.png" width="800px">
 </p>
 
 ---
